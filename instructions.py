@@ -33,7 +33,8 @@ def get_player_names(num_players):
                 print("Invalid input, try again")
 
 def change_player_names(player_names):
-    original_names = player_names
+    original_names = player_names.copy()
+
     while True:
         print("\n Current player names:")
         print_player_names(player_names)

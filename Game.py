@@ -6,4 +6,4 @@ rounds = 0
 while True:
     players = get_number_of_players()
     #output: set to n players
-    get_player_names(player)
+    get_player_names(players)

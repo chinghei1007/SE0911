@@ -39,22 +39,20 @@ class character():
         self.fines = 0
         self.retire = False
 
-    def draw(self):
-        value1 = random.randint(1, 6)
-        value2 = random.randint(1, 6)
-        sum = value1 + value2
-        equal = (value1 == value2)
-        return [sum, equal]
-
     def position_change(self):
-        steps, equal = self.draw()
+        step1 = drawDice()
+        step2 = drawDice()
+        # If in jail, don't move
+        if self.in_jail & step1==step2:
+                self.in_jail = False
+
         self.position += steps
         if self.position > 20:
             self.position -=20
             self.spcial_sqare("Go")
 
 
-    def special_sqare(self,sqare):
+    def special_square(self,sqare):
         match sqare:
             case "Property":
                 self.buyOrPayRent(sqare) #prompt user to choose buy or pay
@@ -76,7 +74,26 @@ class character():
             self.property = []
 
     def buyOrPayRent(self,sqare):
-        pass
+        value = input(f"Would you like to Buy (B) or pay Rent(R) to {sqare}?").lower().strip()
+        while(True):
+
+            match value:
+                case "b":
+                    self.buyProperty(sqare)
+                    return
+                case "r":
+                    self.buyOrPayRent(sqare)
+                    return
+                case _:
+                    "Invalid input, please try again"
+
+
+    def buyProperty(self,propertyName, propertyPrice):
+        if self.coins >= propertyPrice:
+            self.property.append(propertyName)
+            self.coins -= propertyPrice
+
+    def payRent(self, propertyName):
 
     def getPropertyPrice(self,position):
         property_name = self.getPropertyName(position)

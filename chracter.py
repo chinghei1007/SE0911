@@ -40,16 +40,17 @@ class character():
         self.retire = False
 
     def position_change(self):
-        step1 = drawDice()
-        step2 = drawDice()
+        step1 = functions.drawDice()
+        step2 = functions.drawDice()
         # If in jail, don't move
         if self.in_jail & step1==step2:
-                self.in_jail = False
+            self.releaseFromJail(step1+step2)
+        else:
+            self.position += step1+step2
+            if self.position > 20:
+                self.position -=20
+                self.special_square("Go") #+1500 coins
 
-        self.position += steps
-        if self.position > 20:
-            self.position -=20
-            self.spcial_sqare("Go")
 
 
     def special_square(self,sqare):
@@ -94,7 +95,7 @@ class character():
             self.coins -= propertyPrice
 
     def payRent(self, propertyName):
-
+        pass
     def getPropertyPrice(self,position):
         property_name = self.getPropertyName(position)
         return propertiesdict.get(property_name,1)
@@ -108,9 +109,11 @@ class character():
     def go_to_jail(self):
         key = list(propertiesdict.keys())
         print(key.index("Jail"))
-        self.position = key.index("Jail")+1
-        pass
+        self.position = key.index("Jail")+1 #find jail position
 
+    def releaseFromJail(self,steps):
+        self.in_jail = False
+        self.position += steps
 
 p1 = character("Tom")
 price = p1.getPropertyPrice(3)

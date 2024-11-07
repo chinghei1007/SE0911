@@ -1,5 +1,5 @@
 import random
 
 
-def draw():
+def drawDice():
     return random.randint(1, 6)
